@@ -1,9 +1,6 @@
 package com.nishana.restaurantpos.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
@@ -12,7 +9,18 @@ public class RestaurantTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "table_number", unique = true)
     private int tableNumber;
+
     private int capacity;
-    // Getters and setters
+
+    @Enumerated(EnumType.STRING)
+    private TableStatus status;
+
+    private String location;
+
+    private boolean isSmokingAllowed;
+
+
 }
