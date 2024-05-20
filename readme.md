@@ -1,38 +1,54 @@
 # Restaurant POS System
 
-A Point of Sale (POS) system for managing restaurant operations, built with Spring Boot. This application allows restaurant staff to manage orders, menus, and payments efficiently.
+A Restaurant Point of Sale (POS) system built with Spring Boot to manage orders, track sales, and handle various restaurant operations.
 
 ## Table of Contents
 
+- [Introduction](#introduction)
 - [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Getting Started](#getting-started)
 - [Installation](#installation)
 - [Usage](#usage)
 - [API Endpoints](#api-endpoints)
-- [Configuration](#configuration)
 - [Contributing](#contributing)
 - [License](#license)
+- [Contact](#contact)
+
+## Introduction
+
+The Restaurant POS System is designed to streamline the process of managing a restaurant's sales, orders, and inventory. It provides a user-friendly interface for employees to place orders and for managers to view sales reports and manage inventory.
 
 ## Features
 
-- Manage menus with categories and items
-- Handle customer orders and payments
-- Track order status and history
-- User authentication and authorization (optional)
-- Support for multiple payment methods
+- **Order Management**: Easily create, update, and delete orders.
+- **Inventory Management**: Track stock levels and manage inventory items.
+- **Sales Reports**: Generate detailed reports on sales and performance.
+- **User Authentication**: Secure login for employees and administrators.
+- **Real-time Updates**: Instant updates on order status and inventory changes.
 
-## Installation
+## Technologies Used
 
-To set up the project locally, follow these steps:
+- **Java**
+- **Spring Boot**
+- **Spring Data JPA**
+- **H2 Database**
+- **Spring Security**
+- **Thymeleaf** (for the web interface)
+- **HTML/CSS/JavaScript**
+
+## Getting Started
+
+To get a local copy up and running, follow these steps.
 
 ### Prerequisites
 
-- Java 17 or later
-- Maven 3.6 or later
-- Git
+- Java 17 or higher
+- Maven
 
-### Steps
+### Installation
 
 1. **Clone the repository:**
+
    ```sh
-   git clone https://github.com/jitendra977/restaurantpos.git
-   cd restaurant-pos
+   git clone https://github.com/yourusername/restaurant-pos.git
