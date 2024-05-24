@@ -1,5 +1,6 @@
 package com.nishana.restaurantpos.serviceImpl;
 
+import com.nishana.restaurantpos.exception.ResourceNotFoundException;
 import com.nishana.restaurantpos.model.RestaurantTable;
 import com.nishana.restaurantpos.model.TableStatus;
 import com.nishana.restaurantpos.repository.RestaurantTableRepository;
@@ -37,20 +38,15 @@ public class RestaurantTableServiceImpl implements RestaurantTableService {
     }
     // update table by id
     @Override
-    public RestaurantTable updateTable(Long id, RestaurantTable updatedTable) {
-        // Find the existing table by ID
-        RestaurantTable existingTable = restaurantTableRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Table not found with id: " + id));
+    public RestaurantTable updateTable(Long id, RestaurantTable table) {
+        return restaurantTableRepository.findById(id).map(existingTable -> {
+            existingTable.setCapacity(table.getCapacity());
+            existingTable.setLocation(table.getLocation());
+            existingTable.setStatus(table.getStatus());
+            existingTable.setSmokingAllowed(table.isSmokingAllowed());
+            return restaurantTableRepository.save(existingTable);
+        }).orElseThrow(() -> new ResourceNotFoundException("Table with id " + id + " not found"));
 
-        // Update the table details
-
-        existingTable.setCapacity(updatedTable.getCapacity());
-        existingTable.setLocation(updatedTable.getLocation());
-        existingTable.setStatus(updatedTable.getStatus());
-        existingTable.setSmokingAllowed(updatedTable.isSmokingAllowed());
-
-        // Save the updated table
-        return restaurantTableRepository.save(existingTable);
     }
 
     @Override

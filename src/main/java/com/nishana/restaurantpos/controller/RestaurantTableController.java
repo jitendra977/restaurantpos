@@ -1,5 +1,6 @@
 package com.nishana.restaurantpos.controller;
 
+import com.nishana.restaurantpos.dto.ApiResponse;
 import com.nishana.restaurantpos.service.RestaurantTableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,7 @@ public class RestaurantTableController {
         List<RestaurantTable> tables = restaurantTableService.getRestaurantTable();
         return new ResponseEntity<>(tables, HttpStatus.OK);
 
+
     }
     @GetMapping("/{id}")
     public ResponseEntity<Optional<RestaurantTable>> getTableById(@PathVariable("id") Long id){
@@ -40,11 +42,13 @@ public class RestaurantTableController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RestaurantTable> updateTable(@PathVariable("id") Long id, @RequestBody RestaurantTable table) {
+    public ResponseEntity<ApiResponse<RestaurantTable>> updateTable(@PathVariable("id") Long id, @RequestBody RestaurantTable table) {
         RestaurantTable updatedTable = restaurantTableService.updateTable(id, table);
-        System.out.println(updatedTable);
-        return new ResponseEntity<>(updatedTable, HttpStatus.OK);
+        ApiResponse<RestaurantTable> response = new ApiResponse<>("Table Has Been Update",updatedTable);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTable(@PathVariable("id")Long id ){
         restaurantTableService.deleteTable(id);

@@ -1,5 +1,4 @@
 package com.nishana.restaurantpos.model;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,7 +15,8 @@ public class Customer {
     private String phone_number;
     private String email;
     private String address;
-    // Getters and setters
+
+
 }
 
 
