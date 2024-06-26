@@ -26,8 +26,13 @@ public class RestaurantTableServiceImpl implements RestaurantTableService {
     //save the table
     @Override
     public RestaurantTable saveTable(RestaurantTable table) {
-        if (table.getStatus()==null){
-            table.setStatus(TableStatus.AVAILABLE);
+        try{
+            if (table.getStatus()==null){
+                table.setStatus(TableStatus.AVAILABLE);
+            }
+        }
+        catch (Exception e){
+            System.out.println("something error");
         }
         return restaurantTableRepository.save(table);
     }

@@ -1,16 +1,18 @@
 package com.nishana.restaurantpos.dto;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
-@Getter
+@Data
 public class ApiResponse<T> {
-    private T data;
     private String message;
+    private T data;
 
     public ApiResponse(String message, T data) {
-        this.data = data;
         this.message = message;
+        this.data = data;
     }
+
+    // Getters and Setters
 }
