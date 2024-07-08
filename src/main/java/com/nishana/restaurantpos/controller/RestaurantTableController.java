@@ -16,7 +16,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/restaurant-table")
-@CrossOrigin(origins = "http://82.180.161.107")
 public class RestaurantTableController {
 
     @Autowired
