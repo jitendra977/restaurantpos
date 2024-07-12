@@ -118,7 +118,7 @@ To get a local copy up and running, follow these steps.
 
    ```sh
    git clone https://github.com/jitendra977/restaurantpos.git
-## Make startup and shutdown
+
 # Managing Spring Boot Application
 
 This document provides instructions on how to start and stop your Spring Boot application using `startup.sh` and `shutdown.sh` scripts.
@@ -141,8 +141,9 @@ cd /path/to/your/project
 
 # Run the Spring Boot application with the dev profile
 mvn spring-boot:run -Dspring-boot.run.profiles=dev
-
+```
 `shutdown.sh`
+
 ```bash
 #!/bin/bash
 
@@ -155,4 +156,4 @@ if [ -n "$PID" ]; then
 else
   echo "No running process found for mvn spring-boot:run"
 fi
-
+```
