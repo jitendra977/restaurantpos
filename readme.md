@@ -118,3 +118,41 @@ To get a local copy up and running, follow these steps.
 
    ```sh
    git clone https://github.com/jitendra977/restaurantpos.git
+## Make startup and shutdown
+# Managing Spring Boot Application
+
+This document provides instructions on how to start and stop your Spring Boot application using `startup.sh` and `shutdown.sh` scripts.
+
+## Prerequisites
+
+- Ensure that you have Maven installed.
+- Ensure that you have the `startup.sh` and `shutdown.sh` scripts in your project directory.
+- Ensure that the scripts have execution permissions. If not, you can set them using:
+  ```bash
+  chmod +x startup.sh
+  chmod +x shutdown.sh
+
+`startup.sh`
+```bash
+#!/bin/bash
+
+# Navigate to the project directory
+cd /path/to/your/project
+
+# Run the Spring Boot application with the dev profile
+mvn spring-boot:run -Dspring-boot.run.profiles=dev
+
+`shutdown.sh`
+```bash
+#!/bin/bash
+
+# Find the process ID (PID) of the Java process started by Maven
+PID=$(ps aux | grep '[j]ava.*spring-boot' | awk '{print $2}')
+
+if [ -n "$PID" ]; then
+  echo "Stopping process with PID $PID"
+  kill -9 $PID
+else
+  echo "No running process found for mvn spring-boot:run"
+fi
+
