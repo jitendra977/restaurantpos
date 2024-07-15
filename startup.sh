@@ -1,6 +1,5 @@
 #!/bin/bash
 
-<<<<<<< HEAD
 # Define the project directory
 PROJECT_DIR="/home/jitu/projects/restaurantpos"
 
@@ -15,11 +14,3 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Spring Boot application started successfully with the dev profile"
-=======
-# Change directory to the project folder
-cd ~/projects/restaurantpos
-
-# Run the Spring Boot application using Maven
-nohup mvn spring-boot:run &
-
->>>>>>> 8117658 (Committing changes)
