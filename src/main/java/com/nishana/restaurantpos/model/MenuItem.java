@@ -1,10 +1,6 @@
 package com.nishana.restaurantpos.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
@@ -12,11 +8,11 @@ import lombok.Data;
 public class MenuItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long itemId;
     private String name;
     private String description;
-    private double price;
-
+    private float price;
+    private String availability;
     @ManyToOne
     private Category category;
 }

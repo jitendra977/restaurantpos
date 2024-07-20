@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>POST JSON Data</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script th:inline="javascript">
+        function sendPostRequest(event) {
+            event.preventDefault();
+            const jsonData = document.getElementById("jsonInput").value;
+            const endpoint = document.getElementById("endpointSelect").value;
+
+            fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: jsonData
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Data posted successfully to ' + endpoint);
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</head>
+<body>
+<div class="navbar">
+    <a href="/">Home</a>
+    <a href="/post">Post Data</a>
+</div>
+<div class="container">
+    <h1>Post JSON Data</h1>
+    <form onsubmit="sendPostRequest(event)">
+        <label for="endpointSelect">Select Endpoint:</label>
+        <select id="endpointSelect" name="endpointSelect" required>
+            <option value="http://localhost:8081/customer/">Customer</option>
+            <option value="http://localhost:8081/menu/">Menu</option>
+            <option value="http://localhost:8081/category/">Category</option>
+            <option value="http://localhost:8081/restaurant-table/">Table</option>
+        </select>
+        <br><br>
+        <label for="jsonInput">JSON Data:</label>
+        <textarea id="jsonInput" name="jsonInput" rows="10" cols="50" required></textarea>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+</body>
+</html>

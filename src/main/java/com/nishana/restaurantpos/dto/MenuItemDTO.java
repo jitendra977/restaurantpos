@@ -8,6 +8,5 @@ public class MenuItemDTO {
     private String description;
     private double price;
     private Long categoryId;
-
-    // Getters and Setters
+    
 }

@@ -6,7 +6,6 @@ import com.nishana.restaurantpos.model.TableStatus;
 import com.nishana.restaurantpos.repository.RestaurantTableRepository;
 import com.nishana.restaurantpos.service.RestaurantTableService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
