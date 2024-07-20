@@ -2,13 +2,16 @@ package com.nishana.restaurantpos.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import java.util.List;
 
 @Data
+@NoArgsConstructor
 @Entity
 public class RestaurantTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long tableId; // Changed field name to tableId
 
     @Column(name = "table_number", unique = true)
     private int tableNumber;
@@ -22,5 +25,6 @@ public class RestaurantTable {
 
     private boolean isSmokingAllowed;
 
-
+    @OneToMany(mappedBy = "table")
+    private List<Order> orders;
 }

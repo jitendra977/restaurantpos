@@ -9,7 +9,7 @@ PROJECT_DIR="/home/jitu/projects/restaurantpos"
 cd "$PROJECT_DIR" || { echo "Failed to navigate to project directory: $PROJECT_DIR"; exit 1; }
 
 # Run the Spring Boot application with the dev profile in the background
-nohup mvn spring-boot:run -Dspring-boot.run.profiles=dev > 
+nohup mvn spring-boot:run -Dspring-boot.run.profiles=dev > spring-boot-app.log 2>&1 &
 
 # Check if the command was successful
 if [ $? -ne 0 ]; then

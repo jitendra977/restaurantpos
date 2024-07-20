@@ -1,27 +1,27 @@
 package com.nishana.restaurantpos.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 @Data
+@NoArgsConstructor
 @Entity
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
+
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private RestaurantOrder order;
+    private Order order;
+
     @ManyToOne
     @JoinColumn(name = "menu_item_id")
     private MenuItem menuItem;
+
     private int quantity;
-    private double item_price;
-    private double total_price;
-    
+    private float price;
 }

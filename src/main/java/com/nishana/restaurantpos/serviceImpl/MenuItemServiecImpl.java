@@ -37,8 +37,7 @@ public class MenuItemServiecImpl implements MenuItemService {
         MenuItem menuItem = new MenuItem();
         menuItem.setName(menuItemDTO.getName());
         menuItem.setDescription(menuItemDTO.getDescription());
-        menuItem.setPrice(menuItemDTO.getPrice());
-
+       
         Optional<Category> categoryOptional = categoryRepository.findById(menuItemDTO.getCategoryId());
         if (categoryOptional.isPresent()) {
             menuItem.setCategory(categoryOptional.get());

@@ -25,6 +25,11 @@ public class MenuItemController {
         return new ResponseEntity<>(menuItemList, HttpStatus.OK);
     }
 
+    @GetMapping("/home")
+    public String mainPage() {
+        return "index"; // This will return the name of the HTML file (e.g., index.html) in your resources/templates directory
+    }
+
     @GetMapping("/category")
     public ResponseEntity<List<Category>> getCategory() {
         List<Category> categories = menuItemService.getCategory();
