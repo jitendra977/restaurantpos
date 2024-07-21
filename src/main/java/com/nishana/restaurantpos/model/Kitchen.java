@@ -11,12 +11,13 @@ import java.util.List;
 public class Kitchen {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String name;
     private String location;
     private String status;
 
-    @OneToMany(mappedBy = "kitchen")
-    private List<Order> orders;
+
+//    @OneToMany(mappedBy = "kitchen", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Order> orders;
 }

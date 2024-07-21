@@ -1,27 +1,25 @@
 package com.nishana.restaurantpos.model;
 
 import jakarta.persistence.*;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @Entity
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
+
+    private int quantity;
+    private double price;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private Order order;
+    private Order order;  // Reference to the Order entity
 
     @ManyToOne
     @JoinColumn(name = "menu_item_id")
-    private MenuItem menuItem;
-
-    private int quantity;
-    private float price;
+    private MenuItem menuItem;  // Reference to the MenuItem entity
 }

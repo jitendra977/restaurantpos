@@ -3,7 +3,6 @@ package com.nishana.restaurantpos.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -11,7 +10,7 @@ import java.util.List;
 public class RestaurantTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long tableId; // Changed field name to tableId
+    private Long tableId;
 
     @Column(name = "table_number", unique = true)
     private int tableNumber;
@@ -23,8 +22,5 @@ public class RestaurantTable {
 
     private String location;
 
-    private boolean isSmokingAllowed;
-
-    @OneToMany(mappedBy = "table")
-    private List<Order> orders;
+    private boolean isSmokingAllowed; // Field should be private but with Lombok @Data, getters and setters are auto-generated
 }

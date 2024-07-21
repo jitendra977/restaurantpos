@@ -15,6 +15,6 @@ public class PaymentMethod {
 
     private String methodName;
 
-    @OneToMany(mappedBy = "paymentMethod", cascade = CascadeType.PERSIST)
-    private List<Order> orders;
+//    @OneToMany(mappedBy = "paymentMethod", cascade = CascadeType.PERSIST)
+//    private List<Order> orders;
 }

@@ -1,18 +1,13 @@
 package com.nishana.restaurantpos.service;
 
-import com.nishana.restaurantpos.model.RestaurantTable;
+import com.nishana.restaurantpos.dto.RestaurantTableDTO;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface RestaurantTableService {
-    public List<RestaurantTable> getRestaurantTable();
-
-    public RestaurantTable saveTable(RestaurantTable table);
-
-    public Optional<RestaurantTable> getTableById(Long id);
-
-    public RestaurantTable updateTable(Long id, RestaurantTable table);
-
-    public void deleteTable(Long id);
+    RestaurantTableDTO createTable(RestaurantTableDTO tableDTO);
+    RestaurantTableDTO getTableById(Long id);
+    List<RestaurantTableDTO> getAllTables();
+    RestaurantTableDTO updateTable(Long id, RestaurantTableDTO tableDTO);
+    void deleteTable(Long id);
 }

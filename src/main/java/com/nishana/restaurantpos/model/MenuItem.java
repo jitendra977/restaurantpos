@@ -13,6 +13,7 @@ public class MenuItem {
     private String description;
     private float price;
     private String availability;
+
     @ManyToOne
     private Category category;
 }
