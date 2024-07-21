@@ -1,11 +1,10 @@
 package com.nishana.restaurantpos.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 
 @Data
@@ -18,6 +17,6 @@ public class Category {
     private String name;
 
     // If you want a bidirectional relationship, uncomment the following lines:
-    // @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-    // private List<MenuItem> menuItems;
+//     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+//     private List<MenuItem> menuItems;
 }

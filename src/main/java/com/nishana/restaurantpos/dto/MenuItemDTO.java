@@ -8,5 +8,6 @@ public class MenuItemDTO {
     private String description;
     private double price;
     private Long categoryId;
+    private String availability;
     
 }
