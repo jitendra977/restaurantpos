@@ -1,13 +1,14 @@
 package com.nishana.restaurantpos.service;
 
-import java.util.List;
-
 import com.nishana.restaurantpos.dto.OrderDTO;
 import com.nishana.restaurantpos.model.Order;
 
-public interface OrderService {
-    public List<OrderDTO> getOrder();
+import java.util.List;
 
-    public OrderDTO addOrder(Order order);
-    
+public interface OrderService {
+    List<OrderDTO> getOrder();
+    OrderDTO addOrder(Order order);
+    OrderDTO getOrderById(Long id);
+    OrderDTO updateOrder(Long id, Order orderDetails);
+    void deleteOrder(Long id);
 }
