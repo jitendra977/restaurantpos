@@ -1,6 +1,7 @@
 package com.nishana.restaurantpos.serviceImpl;
 
 import com.nishana.restaurantpos.dto.UserDTO;
+import com.nishana.restaurantpos.exception.ResourceNotFoundException;
 import com.nishana.restaurantpos.mapper.UserMapper;
 import com.nishana.restaurantpos.model.User;
 import com.nishana.restaurantpos.repository.UserRepository;
@@ -17,47 +18,46 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    // Use UserMapper to convert to DTO
-    private UserDTO convertToDTO(User user) {
-        return UserMapper.toDTO(user);
-    }
-
-    // Use UserMapper to convert to Entity
-    private User convertToEntity(UserDTO userDTO) {
-        return UserMapper.toEntity(userDTO);
-    }
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public UserDTO createUser(UserDTO userDTO) {
-        User user = convertToEntity(userDTO);
-        User savedUser = userRepository.save(user);
-        return convertToDTO(savedUser);
+        User user = userMapper.toEntity(userDTO);
+        user = userRepository.save(user);
+        return userMapper.toDTO(user);
     }
 
     @Override
     public UserDTO getUserById(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        return convertToDTO(user);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+        return userMapper.toDTO(user);
     }
 
     @Override
     public List<UserDTO> getAllUsers() {
         List<User> users = userRepository.findAll();
-        return users.stream().map(this::convertToDTO).collect(Collectors.toList());
+        return users.stream()
+                .map(userMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
     public UserDTO updateUser(Long userId, UserDTO userDTO) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        user.setName(userDTO.getName());
-        user.setContactNumber(userDTO.getContactNumber());
-        user.setEmail(userDTO.getEmail());
-        User updatedUser = userRepository.save(user);
-        return convertToDTO(updatedUser);
+        User existingUser = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+
+        User user = userMapper.toEntity(userDTO);
+        user.setUserId(existingUser.getUserId()); // ensure the ID remains the same
+        user = userRepository.save(user);
+        return userMapper.toDTO(user);
     }
 
     @Override
     public void deleteUser(Long userId) {
-        userRepository.deleteById(userId);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+        userRepository.delete(user);
     }
 }

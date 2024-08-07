@@ -1,4 +1,3 @@
-// UserService.java
 package com.nishana.restaurantpos.service;
 
 import com.nishana.restaurantpos.dto.UserDTO;
