@@ -1,27 +1,28 @@
 package com.nishana.restaurantpos.mapper;
 
-
 import com.nishana.restaurantpos.dto.UserDTO;
 import com.nishana.restaurantpos.model.User;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserMapper {
 
+    private final ModelMapper modelMapper;
+
+    @Autowired
+    public UserMapper(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
     // Convert User entity to UserDTO
-    public static UserDTO toDTO(User user) {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUserId(user.getUserId());
-        userDTO.setName(user.getName());
-        userDTO.setContactNumber(user.getContactNumber());
-        userDTO.setEmail(user.getEmail());
-        return userDTO;
+    public UserDTO toDTO(User user) {
+        return modelMapper.map(user, UserDTO.class);
     }
 
     // Convert UserDTO to User entity
-    public static User toEntity(UserDTO userDTO) {
-        User user = new User();
-        user.setName(userDTO.getName());
-        user.setContactNumber(userDTO.getContactNumber());
-        user.setEmail(userDTO.getEmail());
-        return user;
+    public User toEntity(UserDTO userDTO) {
+        return modelMapper.map(userDTO, User.class);
     }
 }

@@ -17,6 +17,4 @@ public class User {
     private String contactNumber;
     private String email;
 
-//    @OneToMany(mappedBy = "user")
-//    private List<Order> orders;
 }
