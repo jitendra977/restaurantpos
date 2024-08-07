@@ -1,6 +1,6 @@
-// UserController.java
 package com.nishana.restaurantpos.controller;
 
+import com.nishana.restaurantpos.dto.ApiResponse;
 import com.nishana.restaurantpos.dto.UserDTO;
 import com.nishana.restaurantpos.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +22,11 @@ public class UserController {
         return ResponseEntity.ok(createdUser);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
-        UserDTO user = userService.getUserById(id);
-        return ResponseEntity.ok(user);
+    @GetMapping("/{userId}")
+    public ResponseEntity<ApiResponse<UserDTO>> getUserById(@PathVariable Long userId) {
+        UserDTO userDTO = userService.getUserById(userId);
+        ApiResponse<UserDTO> response = new ApiResponse<>("user this id : "+userId,userDTO);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
@@ -34,15 +35,15 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
-        UserDTO updatedUser = userService.updateUser(id, userDTO);
+    @PutMapping("/{userId}")
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long userId, @RequestBody UserDTO userDTO) {
+        UserDTO updatedUser = userService.updateUser(userId, userDTO);
         return ResponseEntity.ok(updatedUser);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
+        userService.deleteUser(userId);
         return ResponseEntity.noContent().build();
     }
 }
