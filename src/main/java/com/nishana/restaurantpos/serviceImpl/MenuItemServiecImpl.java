@@ -31,15 +31,13 @@ public class MenuItemServiecImpl implements MenuItemService {
         return menuItemRepository.findAll();
     }
 
-
     @Override
     @Transactional
     public MenuItem addMenuItem(MenuItemDTO menuItemDTO) {
         MenuItem menuItem = new MenuItem();
         menuItem.setName(menuItemDTO.getName());
         menuItem.setDescription(menuItemDTO.getDescription());
-        menuItem.setPrice(menuItemDTO.getPrice()); // Set the price from DTO
-
+       
         Optional<Category> categoryOptional = categoryRepository.findById(menuItemDTO.getCategoryId());
         if (categoryOptional.isPresent()) {
             menuItem.setCategory(categoryOptional.get());

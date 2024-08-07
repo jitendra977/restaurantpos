@@ -1,88 +1,101 @@
 package com.nishana.restaurantpos.serviceImpl;
 
-import com.nishana.restaurantpos.dto.OrderDTO;
-import com.nishana.restaurantpos.exception.ResourceNotFoundException;
-import com.nishana.restaurantpos.mapper.OrderMapper;
-import com.nishana.restaurantpos.model.MenuItem;
-import com.nishana.restaurantpos.model.Order;
-import com.nishana.restaurantpos.model.OrderItem;
-import com.nishana.restaurantpos.repository.MenuItemRepository;
-import com.nishana.restaurantpos.repository.OrderRepository;
-import com.nishana.restaurantpos.service.OrderService;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import com.nishana.restaurantpos.dto.*;
+import com.nishana.restaurantpos.model.Order;
+import com.nishana.restaurantpos.model.OrderItem;
+import com.nishana.restaurantpos.repository.OrderRepository;
+import com.nishana.restaurantpos.service.OrderService;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
-    @Autowired
-    private  MenuItemRepository menuItemRepository;
 
     @Override
     public List<OrderDTO> getOrder() {
         List<Order> orders = orderRepository.findAll();
-        return orders.stream().map(OrderMapper::convertToDTO).collect(Collectors.toList());
+        return orders.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     @Override
     public OrderDTO addOrder(Order order) {
-        float totalAmount = 0.0f;
-
+        // Set the order reference in each order item
         if (order.getOrderItems() != null) {
             for (OrderItem item : order.getOrderItems()) {
-                // Fetch MenuItem from repository using itemId
-                MenuItem menuItem = menuItemRepository.findById(item.getMenuItem().getItemId())
-                        .orElseThrow(() -> new ResourceNotFoundException("MenuItem not found for this id :: " + item.getMenuItem().getItemId()));
-
-                // Set the price from MenuItem
-                item.setPrice(menuItem.getPrice());
-                item.setOrder(order); // Set the order reference
-
-                // Calculate total amount
-                totalAmount += item.getPrice() * item.getQuantity();
-            }
-        }
-
-        order.setTotalAmount(totalAmount);
-        Order savedOrder = orderRepository.save(order);
-        return OrderMapper.convertToDTO(savedOrder);
-    }
-
-    @Override
-    public OrderDTO getOrderById(Long id) {
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Order not found for this id :: " + id));
-        return OrderMapper.convertToDTO(order);
-    }
-
-    @Override
-    public OrderDTO updateOrder(Long id, Order orderDetails) {
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Order not found for this id :: " + id));
-
-        order.setOrderDate(orderDetails.getOrderDate());
-        order.setTotalAmount(orderDetails.getTotalAmount());
-        order.setStatus(orderDetails.getStatus());
-
-        if (orderDetails.getOrderItems() != null) {
-            for (OrderItem item : orderDetails.getOrderItems()) {
                 item.setOrder(order);
             }
         }
-
-        Order updatedOrder = orderRepository.save(order);
-        return OrderMapper.convertToDTO(updatedOrder);
+        Order savedOrder = orderRepository.save(order);
+        return convertToDTO(savedOrder);
     }
 
-    @Override
-    public void deleteOrder(Long id) {
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Order not found for this id :: " + id));
-        orderRepository.delete(order);
+    private OrderDTO convertToDTO(Order order) {
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setId(order.getId());
+        orderDTO.setOrderDate(order.getOrderDate());
+        orderDTO.setTotalAmount(order.getTotalAmount());
+        orderDTO.setStatus(order.getStatus());
+
+        // Handle potential null values for RestaurantTable
+        RestaurantTableDTO tableDTO = new RestaurantTableDTO();
+        if (order.getTable() != null) {
+            tableDTO.setTableId(order.getTable().getTableId());
+            tableDTO.setTableNumber(order.getTable().getTableNumber());
+            tableDTO.setCapacity(order.getTable().getCapacity());
+            tableDTO.setStatus(order.getTable().getStatus() != null ? order.getTable().getStatus().name() : "UNKNOWN");
+            tableDTO.setLocation(order.getTable().getLocation());
+            tableDTO.setSmokingAllowed(order.getTable().isSmokingAllowed());
+        }
+        orderDTO.setTable(tableDTO);
+
+        // Handle potential null values for User
+        UserDTO userDTO = new UserDTO();
+        if (order.getUser() != null) {
+            userDTO.setUserId(order.getUser().getUserId());
+            userDTO.setName(order.getUser().getName());
+            userDTO.setContactNumber(order.getUser().getContactNumber());
+            userDTO.setEmail(order.getUser().getEmail());
+        }
+        orderDTO.setUser(userDTO);
+
+        // Handle potential null values for PaymentMethod
+        PaymentMethodDTO paymentMethodDTO = new PaymentMethodDTO();
+        if (order.getPaymentMethod() != null) {
+            paymentMethodDTO.setId(order.getPaymentMethod().getId());
+            paymentMethodDTO.setMethodName(order.getPaymentMethod().getMethodName());
+        }
+        orderDTO.setPaymentMethod(paymentMethodDTO);
+
+        // Handle potential null values for Kitchen
+        KitchenDTO kitchenDTO = new KitchenDTO();
+        if (order.getKitchen() != null) {
+            kitchenDTO.setId(order.getKitchen().getId());
+            kitchenDTO.setName(order.getKitchen().getName());
+            kitchenDTO.setLocation(order.getKitchen().getLocation());
+            kitchenDTO.setStatus(order.getKitchen().getStatus());
+        }
+        orderDTO.setKitchen(kitchenDTO);
+
+        // Handle potential null values for OrderItems
+        List<OrderItemDTO> orderItemDTOs = order.getOrderItems().stream().map(item -> {
+            OrderItemDTO itemDTO = new OrderItemDTO();
+            itemDTO.setId(item.getId());
+            itemDTO.setQuantity(item.getQuantity());
+            itemDTO.setPrice(item.getPrice());
+            itemDTO.setOrderId(order.getId());  // Set the orderId here
+            // You need to create and set MenuItemDTO here if available
+            // itemDTO.setMenuItem(...);
+            return itemDTO;
+        }).collect(Collectors.toList());
+        orderDTO.setOrderItems(orderItemDTOs);
+
+        return orderDTO;
     }
 }
