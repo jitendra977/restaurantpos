@@ -1,7 +1,6 @@
 package com.nishana.restaurantpos.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.nishana.restaurantpos.model.constant.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,8 +23,7 @@ public class Order {
     @Column(name = "total_amount")
     private float totalAmount;
 
-    @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    private String status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "table_id")

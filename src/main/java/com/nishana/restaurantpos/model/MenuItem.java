@@ -11,7 +11,7 @@ public class MenuItem {
     private Long itemId;
     private String name;
     private String description;
-    private float price; // Ensure this is present and correctly mapped
+    private float price;
     private String availability;
 
     @ManyToOne
