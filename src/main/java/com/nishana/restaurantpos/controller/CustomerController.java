@@ -11,21 +11,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/customer")
+@RequestMapping("/api/customer")
 public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
 
     // Get all customers
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<Customer>> getCustomers() {
         List<Customer> customers = customerService.getCustomer();
         return new ResponseEntity<>(customers, HttpStatus.OK);
     }
 
     // Add a new customer
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<ApiResponse<Customer>> addCustomer(@RequestBody Customer customer) {
         Customer createdCustomer = customerService.addCustomer(customer);
         ApiResponse<Customer> response = new ApiResponse<>("Customer created successfully", createdCustomer);
