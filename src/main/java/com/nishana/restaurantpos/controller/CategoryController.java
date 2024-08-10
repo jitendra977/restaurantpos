@@ -3,6 +3,8 @@ package com.nishana.restaurantpos.controller;
 
 import com.nishana.restaurantpos.dto.ApiResponse;
 import com.nishana.restaurantpos.dto.CategoryDTO;
+import com.nishana.restaurantpos.exception.DatabaseException;
+import com.nishana.restaurantpos.exception.ResourceNotFoundException;
 import com.nishana.restaurantpos.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,12 +47,21 @@ public class CategoryController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/{Id}")
-    public ResponseEntity<ApiResponse<CategoryDTO>> deleteCategory(@PathVariable Long Id){
-        CategoryDTO categoryDTO = categoryService.getCategoryById(Id);
-       categoryService.deleteCategory(Id);
-       ApiResponse<CategoryDTO> response = new ApiResponse<>("Category Delete Successfully with Id " +Id,categoryDTO);
-       return ResponseEntity.ok(response);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteCategory(@PathVariable Long id) {
+        try {
+            categoryService.deleteCategory(id);
+            return ResponseEntity.ok("Category deleted successfully");
+        } catch (ResourceNotFoundException ex) {
+            // Handle case where the resource is not found
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        } catch (DatabaseException ex) {
+            // Handle database errors
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
+        } catch (Exception ex) {
+            // Handle any other unexpected errors
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
+        }
     }
 
 }
